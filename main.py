@@ -40,10 +40,7 @@ Background information and playbook:
 
 """
 
-PROBLEM = f"""Review the {task} as an attorney. Since we are acting for the {acting_party}, the clause should be in the favor of the 
-{acting_party} whenever it is possible and reasonable. 
-Add any new clause to the agreement if necesary in accordinance to the playbook if it does not mentioned in the agreement. 
-Here is the playbook: {playbook}. Here is the {task}: {agreement} """
+PROBLEM = f"""Review the {task} as an attorney. Since we are acting for the {acting_party}, the clauses should be in the favor of the {acting_party} whenever it is possible and reasonable. Add any new clause to the agreement if necesary in accordance with the playbook if it does not mentioned in the agreement. Here is the playbook: {playbook}. Here is the {task}: {agreement} """
 
 
 
@@ -76,14 +73,7 @@ user_proxy = autogen.UserProxyAgent(
 
 planner = autogen.AssistantAgent(
     name="planner",
-    system_message=f"""Planner. Suggest a plan. Revise the plan based on feedback from admin, until admin approval.
-    The {task} should first review by the attorney_chatbot. Then involve a playbook analyst who analyze the playbook to look for parts that need to be amended and updated on the
-    {task} and check if the amendment has already include all the changes as instructed in the playbook. 
-    The business consultant should review the {task} to see clauses are favorable to the {acting_party} from business perspective based 
-    on the business contemplated on the {task}.
-    Be clear which step is performed by playbook analyst, and which step is performed by the attorney_chatbot and 
-    the business consultant. say TERMINATE once all the step of the plan is completed. 
-    
+    system_message=f"""Planner. Suggest a plan. Revise the plan based on feedback from admin, until admin approval. The {task} should be first reviewed by the attorney_chatbot. Then involve a playbook analyst who analyzes the playbook to look for parts that need to be amended and updated on the {task} and check if the amendments have already include all the changes as mentioned in the playbook. The business consultant should review the {task} to determine if the clauses are favorable to the {acting_party} from the business perspectives based on the business contemplated in the {task}. Be clear which step is performed by playbook analyst, the attorney_chatbot and the business consultant. say TERMINATE once all the step of the plan is completed.     
     """,
     llm_config=llm_config,
 )
@@ -116,13 +106,7 @@ attorney = autogen.AssistantAgent(
     name="attorney_chatbot",
     llm_config=llm_config,
     is_termination_msg=lambda x: x.get("content", "").rstrip().endswith("TERMINATE"),
-    system_message=f"""You are a professional lawyer, known for your insightful, drafting and reviewing qaulity agreement.
-    You follow an approved plan.
-    You are acting on behalf of the {acting_party}. You aim to enhance the {task} to minimize dispute and enhance clarity. 
-    You should also follow the playbook.
-    You should improve the quality of comment on the {task} based on the feedback from the Business Consultant and 
-    playbook_analyst. You should provide your proposed amendment to the clause and providing the proposed chagnes to the revised clauses.
-    Highlight the changes you made for easy reference. 
+    system_message=f"""You are a professional lawyer, known for your insightful, drafting and reviewing qaulity agreement. You follow an approved plan. You are acting on behalf of the {acting_party}. You aim to enhance the {task} to minimize dispute and enhance clarity. You should also follow the playbook. You should improve the quality of comments on the {task} based on the feedback from the Business Consultant and playbook_analyst. You should provide your proposed amendments to the clauses and provide the proposed chagnes to the revised clauses. Highlight the changes you made for easy reference. 
     """
 )
 
@@ -130,22 +114,13 @@ attorney = autogen.AssistantAgent(
 playbook_analyst = autogen.AssistantAgent(
     name="playbook_analyst",
     llm_config=llm_config,
-    system_message=f"""Playbook analyst. You follow an approved plan. Analyze the playbook and extract  
-    the parts that need to be amended and updated on the {task}. Ensure the playbook instruction is followed. 
-    Only do extraction.""",
+    system_message=f"""Playbook analyst. You follow an approved plan. Analyze the playbook and extract the parts that need to be amended and updated the {task}. Ensure the instructions on the playbook are followed. Only do extraction.""",
 )
 
 
 business_consultant = autogen.AssistantAgent(
     name="business_consultant",
-    system_message=f"""You are a critic and a business consultant, 
-    known for your expert in the type of transaction contemplated in the {task} and the background information.
-    You follow an approved plan.
-    Your task is to scrutinize content for any harmful elements, regulatory violations, clarity of the contract terms, ensuring
-    all materials are aligned and the {acting_party} is protected. Your aim is to minimize dispute and 
-    ensure the party you represented is able to execute the business transaction without undue risk. You should ensure the agreement 
-    follows the information from the playbook. Make sure the {acting_party} obtains all the IP rights. Make sure you follow 
-    the background informaton and the playbook and include all the terms it provides and reflect them in the agreement. """,
+    system_message=f"""You are a critic and a business consultant, known for your expert in the type of transaction contemplated in the {task} and the background information. You follow an approved plan. Your task is to scrutinize content for any harmful elements, regulatory violations, clarity of the contract terms, ensuring all materials are aligned and the {acting_party} is protected. Your aim is to minimize dispute and ensure the party you represent is able to execute the business transaction without undue risk. You should ensure the agreement follows the information in the playbook. Make sure the {acting_party} obtains all the property rights. Make sure you follow the background informaton and the playbook. Include all the terms as instructed in the playbook and are reflected in the {task}. """,
     llm_config=llm_config,
 )
 
