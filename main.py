@@ -3,7 +3,7 @@ from autogen.agentchat.contrib.retrieve_user_proxy_agent import RetrieveUserProx
 from typing_extensions import Annotated
 import dotenv
 import os
-import utilies
+import utilities
 
 # Save the current (original) working directory
 original_path = os.getcwd()
@@ -24,7 +24,7 @@ task = 'agreement'
 acting_party = 'Manufacturer'
 agreement_to_review_file_name = "agreement.docx"
 
-agreement = utilies.read_docx(os.path.join(os.path.abspath(""), "documents", "agreement", f'{agreement_to_review_file_name}'))
+agreement = utilities.read_docx(os.path.join(os.path.abspath(""), "documents", "agreement", f'{agreement_to_review_file_name}'))
 
 playbook = """
 Background information and playbook:
