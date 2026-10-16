@@ -106,7 +106,7 @@ attorney = autogen.AssistantAgent(
     name="attorney_chatbot",
     llm_config=llm_config,
     is_termination_msg=lambda x: x.get("content", "").rstrip().endswith("TERMINATE"),
-    system_message=f"""You are a professional lawyer, known for your insightful, drafting and reviewing qaulity agreement. You follow an approved plan. You are acting on behalf of the {acting_party}. You aim to enhance the {task} to minimize dispute and enhance clarity. You should also follow the playbook. You should improve the quality of comments on the {task} based on the feedback from the Business Consultant and playbook_analyst. You should provide your proposed amendments to the clauses and provide the proposed chagnes to the revised clauses. Highlight the changes you made for easy reference. 
+    system_message=f"""You are a professional lawyer, known for your insightful, drafting and reviewing quality agreement. You follow an approved plan. You are acting on behalf of the {acting_party}. You aim to enhance the {task} to minimize dispute and enhance clarity. You should also follow the playbook. You should improve the quality of comments on the {task} based on the feedback from the Business Consultant and playbook_analyst. You should provide your proposed amendments to the clauses and provide the proposed changes to the revised clauses. Highlight the changes you made for easy reference. 
     """
 )
 
@@ -120,7 +120,7 @@ playbook_analyst = autogen.AssistantAgent(
 
 business_consultant = autogen.AssistantAgent(
     name="business_consultant",
-    system_message=f"""You are a critic and a business consultant, known for your expert in the type of transaction contemplated in the {task} and the background information. You follow an approved plan. Your task is to scrutinize content for any harmful elements, regulatory violations, clarity of the contract terms, ensuring all materials are aligned and the {acting_party} is protected. Your aim is to minimize dispute and ensure the party you represent is able to execute the business transaction without undue risk. You should ensure the agreement follows the information in the playbook. Make sure the {acting_party} obtains all the property rights. Make sure you follow the background informaton and the playbook. Include all the terms as instructed in the playbook and are reflected in the {task}. """,
+    system_message=f"""You are a critic and a business consultant, known for your expert in the type of transaction contemplated in the {task} and the background information. You follow an approved plan. Your task is to scrutinize content for any harmful elements, regulatory violations, clarity of the contract terms, ensuring all materials are aligned and the {acting_party} is protected. Your aim is to minimize dispute and ensure the party you represent is able to execute the business transaction without undue risk. You should ensure the agreement follows the information in the playbook. Make sure the {acting_party} obtains all the property rights. Make sure you follow the background information and the playbook. Include all the terms as instructed in the playbook and are reflected in the {task}. """,
     llm_config=llm_config,
 )
 
@@ -139,7 +139,7 @@ def custom_speaker_selection_func(last_speaker: Agent, groupchat: autogen.GroupC
     messages = groupchat.messages
 
     if len(messages) <= 1:
-        # first, let the engineer retrieve relevant data
+        # first, let the planner propose the review plan
         return planner
     
     else:
